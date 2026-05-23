@@ -1,0 +1,307 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viên Nang Thời Gian | Bảo Hy</title>
+    <style>
+        /* Nhập font chữ giống y hệt ảnh em thích */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Montserrat:wght@200;300;400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #050505; /* Đen tuyền siêu thực */
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- GIAO DIỆN KHÓA (MÀN HÌNH CHÍNH) --- */
+        #lock-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .capsule-card {
+            background-color: #0a0a0c;
+            border: 1px solid #1a1a1c;
+            border-radius: 16px;
+            padding: 60px 50px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 2px rgba(255, 255, 255, 0.02);
+            max-width: 650px;
+            width: 100%;
+        }
+
+        .icon-clock {
+            font-size: 32px;
+            margin-bottom: 25px;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            letter-spacing: 5px;
+            font-weight: 500;
+            color: #e0e0e0;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            font-weight: 400;
+            color: #666;
+            letter-spacing: 1px;
+            margin-bottom: 45px;
+        }
+
+        .timer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .time-box {
+            background-color: #030303;
+            border: 1px solid #151515;
+            border-radius: 12px;
+            padding: 25px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+        }
+
+        .time-box span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 42px;
+            font-weight: 200;
+            color: #f0f0f0;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .time-box label {
+            font-size: 9px;
+            color: #777;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* --- GIAO DIỆN BỨC THƯ (KHI ĐÃ MỞ KHÓA) --- */
+        #letter-screen {
+            display: none; /* Ẩn mặc định */
+            width: 100%;
+            max-width: 800px;
+            padding: 50px 30px;
+            background-color: #080808;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            margin: 40px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.9);
+            animation: fadeIn 2s ease-in;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #1a1a1a;
+        }
+
+        .letter-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
+            color: #dcdcdc;
+            letter-spacing: 3px;
+        }
+
+        .letter-content {
+            font-family: 'Lora', serif;
+            font-size: 16px;
+            line-height: 1.9;
+            color: #b0b0b0;
+            text-align: justify;
+        }
+
+        .letter-content p {
+            margin-bottom: 22px;
+            text-indent: 15px;
+        }
+
+        .questions-block {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #0a0a0a;
+            border-left: 2px solid #333;
+        }
+
+        .questions-block p {
+            text-indent: 0;
+            margin-bottom: 12px;
+            font-style: italic;
+            color: #888;
+        }
+
+        .signature {
+            margin-top: 50px;
+            text-align: right;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive cho iPhone 11 & màn hình nhỏ */
+        @media (max-width: 600px) {
+            .capsule-card { padding: 40px 20px; }
+            h1 { font-size: 20px; letter-spacing: 3px; }
+            .timer-grid { gap: 10px; }
+            .time-box { padding: 20px 5px; }
+            .time-box span { font-size: 30px; }
+            .time-box label { font-size: 8px; }
+            #letter-screen { padding: 30px 20px; }
+            .letter-content { font-size: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÀN HÌNH KHÓA: ĐẾM NGƯỢC -->
+    <div id="lock-screen">
+        <div class="capsule-card">
+            <div class="icon-clock">🕰️</div>
+            <h1>Viên Nang Thời Gian</h1>
+            <div class="subtitle">Sẽ tự động mở khóa vào đúng 12:38:00 • 23/05/2031</div>
+            
+            <div class="timer-grid">
+                <div class="time-box">
+                    <span id="days">000</span>
+                    <label>Ngày</label>
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <label>Giờ</label>
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <label>Phút</label>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <label>Giây</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MÀN HÌNH MỞ KHÓA: NỘI DUNG BỨC THƯ -->
+    <div id="letter-screen">
+        <div class="letter-header">
+            <h2>Hồ Sơ Của Tuổi 19</h2>
+        </div>
+        <div class="letter-content">
+            <p>Xin chàooo Bảo Hy nha, đây là tin nhắn được gửi từ 2026.</p>
+            <p>Hiện tại mình đang ở tại hẻm 75/6 đường 30 tháng 4, Phường Phú Thọ Hoà, Thành Phố Hồ Chí Minh và lúc 12:38:00 thứ 7 23/05/2026 thời tiết hiện tại là 34 độ C thực và 36 độ C cảm nhận, không gian khá yên tĩnh vì bọn mình ở trong hẻm cụt mà.</p>
+            <p>Hiện tại mình vẫn còn dùng Iphone 11 màu tím 64GB ba mua và Ipad Air M3 mẹ mua cho nè.</p>
+            <p>Bây giờ mình nặng đến 61kg, đang mặc đồ ngủ mà mẹ may cho, vẫn như thường lệ ngủ lúc 02:00 và thức dậy vào 11:40 dạo này thức khuya nhiều vì stress và mất ngủ, mình vẫn hay ăn ngoài nhưng ăn ở nhà nhiều hơn.</p>
+            <p>Mình cảm thấy vô cùng hồi hộp không biết sau này có cơ hội để đọc được dòng này không, có lẽ sẽ có mình tin là có vậy, nếu có 3 từ có thể miêu tả được cảm giác lúc này chắc có lẽ là “rất hy vọng” hy vọng rằng sau này chúng ta khi đọc lại phải thực sự tốt hơn hiện tại ở nhiều mặt Hy nha.</p>
+            <p>Hiện tại chúng ta đang học tại Học Viện Hành Chính và Quản Trị Công Tại thành phố Hồ Chí Minh, ngành Quản Lý Nhà Nước đang học ở kỳ 2 và mình chuẩn bị thi kết thúc học phần và mình vẫn chưa học gì hết… mặc dù nó là nguyện vọng của chúng ta ở quá khứ tuy nhiên giờ mình cảm thấy mệt mỏi và khá chênh vênh với việc này, mình mất định hướng mất rồi, cậu thì sao, hiện tại cậu có định hướng của riêng bản thân mình hay chưa?</p>
+            <p>Gia đình của mình hiện tại khá rối, mình không thể khuyên nhủ ai cả, chúng ta đã bất lực nhiều năm nay rồi, mình cũng phiền não nhiều lần lắm, cũng không biết liệu tương lai có ổn hơn không cậu?</p>
+            <p>Hiện tại mình và Khoa (Bo) đang ở cùng với nhau, chẳng biết rằng hiện tại mối quan hệ tình cảm của bọn mình như thế nào rồi? Chuyện của Minh Hy đã đến hồi kết thúc luôn chưa, mình thắc mắc rằng nó sẽ là kết buồn hay là một cái kết vui vẻ đây, cũng chưa chắc sau này sẽ gặp lại ha, mình và Bo đang có dự định 10 năm sau sẽ hẹn ngày gặp lại, nếu cậu đọc được tin nhắn này thì nên có một cái hẹn cho 5 năm sau đi đó nha.</p>
+            <p>Hiện tại mình chơi cùng với Hương với Nhi là chủ yếu, bạn học chung lớp thì có Mỹ Hoàng với Huy thôi, không biết sau này có chuyện gì xảy ra không chứ dần mình không còn tin vào tình bạn lẫn tình cảm nữa dù mình là người tồi… dần dần hiện tại mình không còn ai mà mình đủ tin tưởng và cảm giác an toàn để giải bầy tâm sự cả, mình mệt.</p>
+            <p>Hiện tại mình đang chìm trong nợ thẻ tin dụng mặc dù chỉ 1 triệu 2 triệu thôi nhưng với chúng mình ở đây nó là một số tiền rất lớn, mình áp lực, ngay cả tiền ăn mình còn không có nữa nói chi là tiền để làm cái này cái kia, tuy nhiên công việc hiện tại mình đang làm ở Outerity cũng cho mình sự thoải mái 23.000đ một giờ đó, không biết bạn đó bây giờ làm việc lương bao nhiêu tiền một giờ ??</p>
+            <p>Hiện tại mình cảm thấy bản thân mình xấu xí làm sao đâu ý, mình mất đi sự tự tin vốn có của mình rồi, với cả tương lai bất định, có thể giai đoạn này cũng khá cam go với sức lực năm 19 của chúng mình… mình sẽ cố gắn ha.</p>
+
+            <div class="questions-block">
+                <p>- Năm 24 tuổi cậu đạt được thu nhập mà cậu nghĩ là đáng mơ ước chưa, mơ ước của tớ là 10.000.000đ mỗi tháng thôi đó…???</p>
+                <p>- Hiện tại gia đình mình có bình yên không?</p>
+                <p>- Hiện tại bạn bè có sự thay đổi gì không?</p>
+                <p>- Hiện tại đang làm việc ở đâu?</p>
+                <p>- Hiện tại người yêu của mình là ai vậy cậu? Có tốt không?</p>
+                <p>- Hiện tại chúng ta đã bình yên hơn chưa?</p>
+                <p>- Cậu có muốn trở về thời gian này không?</p>
+            </div>
+            
+            <div class="signature">
+                Ghi chú vào 12:38:00 - 23/05/2026<br>
+                Đồng hành lưu trữ bởi AI
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mốc thời gian tuyệt đối (Dùng chuẩn quốc tế ISO 8601, khóa cứng múi giờ +07:00 của VN)
+        const unlockDate = new Date("2031-05-23T12:38:00+07:00").getTime();
+        
+        let timerInterval;
+
+        // Hàm lõi: Vừa tính thời gian, vừa quyết định hiển thị màn hình nào
+        function checkAndRenderTime() {
+            const now = new Date().getTime();
+            const distance = unlockDate - now;
+
+            // KIỂM TRA QUAN TRỌNG: Nếu thời gian đã ĐẾN hoặc QUA ĐI
+            if (distance <= 0) {
+                // 1. Dừng bộ đếm ngay lập tức
+                if (timerInterval) clearInterval(timerInterval);
+                
+                // 2. Xóa sổ màn hình khóa vĩnh viễn
+                document.getElementById('lock-screen').style.display = 'none';
+                
+                // 3. Hiển thị bức thư
+                document.getElementById('letter-screen').style.display = 'block';
+                
+                // Trả về true để hệ thống biết là đã mở khóa xong
+                return true; 
+            }
+
+            // Nếu thời gian CHƯA TỚI: Tính toán và hiển thị đếm ngược
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days.toString().padStart(4, '0').slice(-4); 
+            // Dùng slice để lỡ số ngày là 3 chữ số (ví dụ 1825) thì không bị lỗi layout
+            document.getElementById('hours').innerText = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').innerText = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').innerText = seconds.toString().padStart(2, '0');
+
+            return false; // Trả về false để báo là vẫn còn đang khóa
+        }
+
+        // CHẠY NGAY LÚC VỪA MỞ TRANG: 
+        // Nếu nó thấy đã qua năm 2031, nó mở thư luôn, còn chưa qua thì nó mới bật bộ đếm 1 giây/lần.
+        const isUnlocked = checkAndRenderTime();
+        
+        if (!isUnlocked) {
+            timerInterval = setInterval(checkAndRenderTime, 1000);
+        }
+    </script>
+</body>
+</html>
+
+```
